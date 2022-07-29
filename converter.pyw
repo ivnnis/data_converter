@@ -14,6 +14,7 @@ result_file_name = ''
 def open_file():
     global df
     global result_file_name
+    
     header = []
     filename = fd.askopenfilename()
     result_file_name = filename[:-4]
@@ -28,9 +29,16 @@ def open_file():
                     if 'Priz=' in line:
                         header = line[5:-1].split('#')
         if 'txt' in file_name and 'ИС_БД' in file_name:
-            df = pd.read_csv('C:\\extracted\\'+file_name, sep='#', encoding='ansi', names=header)
+            data = []
+            with open('C:\\extracted\\'+file_name, encoding='ansi') as source:
+                for line in source.readlines():
+                    data.append(line.splitlines()[0].split('#'))
+            df = pd.DataFrame(data, columns = header)
+            #df = pd.read_csv('C:\\extracted\\'+file_name, sep='#', encoding='ansi', names=header)
             df = df.fillna(0)
-            df = df.astype({'ИНН': 'int64'})
+
+            print(df.info())
+
     for file_name in files:        
         os.remove('C:\\extracted\\'+file_name)
 
