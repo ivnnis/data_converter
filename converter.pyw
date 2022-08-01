@@ -37,8 +37,10 @@ def open_file():
 
 #сохраняет файл из датафрейма
 def save_new_file():
+    global df
     filename = fd.asksaveasfile(mode='w', defaultextension=".csv", initialfile = result_file_name)
     df.to_csv(filename, sep=',', encoding='utf8', index=False, line_terminator='\n')
+
 
 
 
